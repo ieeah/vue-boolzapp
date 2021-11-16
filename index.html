@@ -18,16 +18,16 @@
         <main class="container">
             <aside class="contacts h-100">
                 <header class="user flex al-items-c w-100 p-1">
-                    <div class="avatar h-100 grid-center">
-                        <img class="w-100 rounded" src="./img/avatar_io.jpg" alt="">
+                    <div class="avatar h-100">
+                        <img class="h-100 rounded" src="./img/avatar_io.jpg" alt="">
                     </div>
                     <div class="details h-100 p-1 flex al-items-c">
                         <h4>Nome Utente</h4>
                     </div>
-                    <div class="actions h-100 flex al-items-c space-between">
-                        <i class="fas fa-circle-notch"></i>
-                        <i class="fas fa-comment-alt"></i>
-                        <i class="fas fa-ellipsis-v"></i>
+                    <div class="actions h-100 flex al-items-c space-between fsz-3-2">
+                        <i class="fas fa-circle-notch mr-1"></i>
+                        <i class="fas fa-comment-alt mr-1"></i>
+                        <i class="fas fa-ellipsis-v mr-1"></i>
                     </div>
                 </header>
                 <div class="notifications-alert w-100 flex al-items-c p-1">
@@ -44,31 +44,49 @@
                         <div class="search-icon grid-center p-05">
                             <i class="fas fa-search primary-color"></i>
                         </div>
-                        <input class="p-05" type="text">
+                        <input class="p-05" type="text" placeholder="Cerca o inizia una nuova chat">
                     </div>
                     <div class="contacts-browser">
                         <ul>
-                            <li v-for="(person, i) in contacts" class="person flex al-items-c w-100 p-1">
+                            <li v-for="(person, index) in contacts" class="person flex al-items-c w-100 p-1" @click="getActiveAccount(index)">
                                 <div class="avatar h-100 w-25">
-                                    <img class="rounded" :src="`./img/avatar${contacts[i].avatar}.jpg`" alt="">
+                                    <img class="rounded" :src="`./img/avatar${contacts[index].avatar}.jpg`" alt="">
                                 </div>
                                 <div class="details h-100 p-1 flex al-items-c">
-                                    <h4>{{contacts[i].name}}</h4>
+                                    <h4>{{contacts[index].name}}</h4>
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
             </aside>
-            <container class="message-area">
-                <header class="active-contact">
-                    <div class="active-details">
-                        <div class="active-avatar"></div>
-                        <div class="active-user-details"></div>
-                        <div class="active-actions"></div>
+            <section class="message-area w-100 flex flex-columns">
+                <header class="active-contact w-100 p-1">
+                    <div class="active-details w-100 h-100 flex al-items-c">
+                        <div class="active-avatar h-100">
+                            <img class="h-100 rounded" :src="`./img/avatar${contacts[activeAccount].avatar}.jpg`" alt="">
+                        </div>
+                        <div class="details flex flex-columns grow-1">
+                            <h4 class="contact-name">{{contacts[activeAccount].name}}</h4>
+                            <div class="last-access secondary-color fsz-5">Ultimo Accesso</div>
+                        </div>
+                        <div class="active-actions fsz-3-2 primary-color">
+                            <i class="fas fa-search mr-1"></i>
+                            <i class="fas fa-paperclip mr-1"></i>
+                            <i class="fas fa-ellipsis-v mr-1"></i>
+                        </div>
                     </div>
                 </header>
-            </container>
+                <section class="body-message p-3 grow-1">
+                </section>
+                <section class="new-message w-100 p-1 flex al-items-c space-around">
+                    <div class="toggle-emojis fsz-3-2">
+                        <i class="far fa-smile"></i>
+                    </div>
+                        <input type="text" class="message-input" placeholder="Scrivi un messaggio">
+                    <div class="audio"></div>
+                </section>
+            </section>
         </main>
 
     </div>

@@ -86,5 +86,12 @@ const app = new Vue({
                 ],
             },
         ],
+        activeAccount: 0,
+    },
+    methods: {
+        getActiveAccount(index) {
+            this.activeAccount = index;
+            console.log(this.activeAccount);
+        }
     },
 });
