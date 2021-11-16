@@ -1,12 +1,7 @@
-console.log('js ok');
 
 const app = new Vue({
     el: '#app',
     data: {
-        user: {
-            name: 'Utente',
-            avatar: './img/avatar_io.jpg',
-        },
         contacts: [
             {
                 name: 'Michele',
@@ -27,7 +22,7 @@ const app = new Vue({
                         date: '10/01/2020 16:15:22',
                         text: 'Tutto fatto!',
                         status: 'received'
-                    }
+                    },
                 ],
             },
             {
@@ -49,7 +44,7 @@ const app = new Vue({
                         date: '20/03/2020 16:35:00',
                         text: 'Mi piacerebbe ma devo andare a fare la spesa.',
                         status: 'sent'
-                    }
+                    },
                 ],
             },    {
                 name: 'Samuele',
@@ -70,7 +65,7 @@ const app = new Vue({
                         date: '28/03/2020 16:15:22',
                         text: 'Ah scusa!',
                         status: 'received'
-                    }
+                    },
                 ],
             },
             {
@@ -87,11 +82,9 @@ const app = new Vue({
                         date: '10/01/2020 15:50:00',
                         text: 'Si, ma preferirei andare al cinema',
                         status: 'received'
-                    }
+                    },
                 ],
             },
-        ]
-        
-        
+        ],
     },
-}),
+});

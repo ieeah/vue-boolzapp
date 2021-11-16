@@ -29,6 +29,7 @@
 
         /* width */
         .w-100 {width: 100%;}
+        .w-25 {width: 25%;}
 
     /* flex */
     .flex {display: flex;}
@@ -139,4 +140,14 @@ main {
 .search-bar input {
     width: 85%;
     border: 1px solid var(--quaternary-color);
+}
+
+
+.person {
+    height: 80px;
+    border-bottom: 1px solid var(--quaternary-color);
+}
+
+.person .avatar img {
+    height: 100%;
 }
