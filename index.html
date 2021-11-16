@@ -17,17 +17,47 @@
 
         <main class="container">
             <aside class="contacts h-100">
-                <header class="user">
-                    <div class="avatar h-100">
-                        <img src="./img/avatar_io.jpg" alt="">
+                <header class="user flex al-items-c w-100 p-1">
+                    <div class="avatar h-100 grid-center">
+                        <img class="w-100 rounded" src="./img/avatar_io.jpg" alt="">
                     </div>
-                    <div class="details h-100"></div>
-                    <div class="actions h-100"></div>
+                    <div class="details h-100 p-1 flex al-items-c">
+                        <h4>Nome Utente</h4>
+                    </div>
+                    <div class="actions h-100 flex al-items-c space-between">
+                        <i class="fas fa-circle-notch"></i>
+                        <i class="fas fa-comment-alt"></i>
+                        <i class="fas fa-ellipsis-v"></i>
+                    </div>
                 </header>
-                <div class="notifications-alert"></div>
+                <div class="notifications-alert w-100 flex al-items-c p-1">
+                    <div class="notification-bell rounded grid-center">
+                        <i class="fas fa-bell-slash fsz-3"></i>
+                    </div>
+                    <div class="notification-details p-1">
+                        <p class="fw-bold fsz-4">Ricevi notifiche di nuovi messaggi</p>
+                        <a class="fsz-5 secondary-color" href="#">Attiva notifiche Desktop</a>
+                    </div>
+                </div>
                 <div class="contact-list">
-                    <div class="search-bar"></div>
-                    <div class="contacts-browser"></div>
+                    <div class="search-bar flex al-items-c p-1">
+                        <div class="search-icon grid-center p-05">
+                            <i class="fas fa-search primary-color"></i>
+                        </div>
+                        <input class="p-05" type="text">
+                    </div>
+                    <div class="contacts-browser">
+                        <ul>
+                            <li v-for="(person, index) in contacts" class="flex al-items-c">
+                                <div class="avatar h-100 grid-center">
+                                    <img class="w-100 rounded" src="`./img/avatar${person.avatar}.jpg`" alt="">
+                                </div>
+                                <div class="details h-100 p-1 flex al-items-c">
+                                    <h4></h4>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </aside>
             <container class="message-area">
