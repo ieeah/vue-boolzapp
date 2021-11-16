@@ -3,6 +3,10 @@ console.log('js ok');
 const app = new Vue({
     el: '#app',
     data: {
+        user: {
+            name: 'Utente',
+            avatar: './img/avatar_io.jpg',
+        },
         contacts: [
             {
                 name: 'Michele',
