@@ -108,7 +108,7 @@ const app = new Vue({
 
         sendMessage() {
             this.contacts[this.activeAccount].messages.push({
-                date: this.now,
+                date: dayjs().format('DD/MM/YYYY HH:mm:ss'),
                 text: this.newMessageBody,
                 status: 'sent',
             },);
@@ -120,7 +120,7 @@ const app = new Vue({
         botAnswer() {
             setTimeout(()=> {
                 this.contacts[this.activeAccount].messages.push({
-                    date: this.now,
+                    date: dayjs().format('DD/MM/YYYY HH:mm:ss'),
                     text: 'ok bro',
                     status: 'received',
                 },);
