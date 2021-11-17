@@ -2,6 +2,10 @@
 const app = new Vue({
     el: '#app',
     data: {
+        user: {
+            userName: 'Ajeje Brazorf',
+            avatar: '_io',
+        },
         contacts: [
             {
                 name: 'Michele',
@@ -87,11 +91,24 @@ const app = new Vue({
             },
         ],
         activeAccount: 0,
+        newMessageBody: '',
+        searchFor: '',
     },
     methods: {
         getActiveAccount(index) {
             this.activeAccount = index;
             console.log(this.activeAccount);
-        }
+        },
+
+        ///////////////
+
+        sendMessage(activeAccount) {
+            this.contacts[this.activeAccount].messages.push({
+                date: '',
+                text: this.newMessageBody,
+                status: 'sent',
+            },);
+            this.newMessageBody = '';
+        },
     },
 });
