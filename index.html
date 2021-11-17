@@ -87,7 +87,7 @@
                     <div class="toggle-emojis fsz-2 p-2">
                         <i class="far fa-smile"></i>
                     </div>
-                        <input @keyup.enter="sendMessage" v-model="newMessageBody" type="text" class="message-input grow-1 p-2 fsz-3-2" placeholder="Scrivi un messaggio">
+                        <input @keyup.enter="sendMessage(); botAnswer()" v-model="newMessageBody" type="text" class="message-input grow-1 p-2 fsz-3-2" placeholder="Scrivi un messaggio">
                     <div class="audio">
                         <i class="fas fa-microphone fsz-2 p-2"></i>
                     </div>
@@ -97,7 +97,9 @@
 
     </div>
     
-
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/locale/it.js"></script>
     <script src="./js/main.js"></script>
 </body>
 </html>

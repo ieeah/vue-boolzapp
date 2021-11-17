@@ -2,6 +2,7 @@
 const app = new Vue({
     el: '#app',
     data: {
+        now: dayjs().format('DD/MM/YYYY HH:mm:ss'),
         user: {
             userName: 'Ajeje Brazorf',
             avatar: '_io',
@@ -94,6 +95,9 @@ const app = new Vue({
         newMessageBody: '',
         searchFor: '',
     },
+    created() {
+        dayjs.locale('it');
+    },
     methods: {
         getActiveAccount(index) {
             this.activeAccount = index;
@@ -104,11 +108,23 @@ const app = new Vue({
 
         sendMessage() {
             this.contacts[this.activeAccount].messages.push({
-                date: '',
+                date: this.now,
                 text: this.newMessageBody,
                 status: 'sent',
             },);
             this.newMessageBody = '';
+        },
+
+        //////////////////
+
+        botAnswer() {
+            setTimeout(()=> {
+                this.contacts[this.activeAccount].messages.push({
+                    date: this.now,
+                    text: 'ok bro',
+                    status: 'received',
+                },);
+            },1000)
         },
     },
 });
