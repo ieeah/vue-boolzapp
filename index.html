@@ -78,13 +78,9 @@
                     </div>
                 </header>
                 <section class="body-message py-5 px-6 grow-1 w-100 flex flex-columns">
-                    <div class="message sent">
-                        <div class="sent-body">Shiao Belo</div>
-                        <div class="sent-timestamp fsz-6 primary-color align-right mt-1">16/11/2021 15:33:49</div>
-                    </div>
-                    <div class="message received flex flex-columns">
-                        <div class="received-body">Weee! t'appost!?</div>
-                        <div class="received-timestamp fsz-6 primary-color align-right mt-1">16/11/2021 15:35:00</div>
+                    <div v-for="(message, i) in contacts[activeAccount].messages" class="message" :class="message.status">
+                        <div class="sent-body">{{message.text}}</div>
+                        <div class="sent-timestamp fsz-6 primary-color align-right mt-1">{{message.date}}</div>
                     </div>
                 </section>
                 <section class="new-message w-100 p-1 flex al-items-c space-around secondary-color">

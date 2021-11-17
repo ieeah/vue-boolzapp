@@ -102,7 +102,7 @@ const app = new Vue({
 
         ///////////////
 
-        sendMessage(activeAccount) {
+        sendMessage() {
             this.contacts[this.activeAccount].messages.push({
                 date: '',
                 text: this.newMessageBody,
