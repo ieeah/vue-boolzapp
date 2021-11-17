@@ -94,6 +94,7 @@ const app = new Vue({
         activeAccount: 0,
         newMessageBody: '',
         searchFor: '',
+        searchIsActive: false,
     },
     created() {
         dayjs.locale('it');
@@ -101,18 +102,20 @@ const app = new Vue({
     methods: {
         getActiveAccount(index) {
             this.activeAccount = index;
-            console.log(this.activeAccount);
         },
 
         ///////////////
 
         sendMessage() {
-            this.contacts[this.activeAccount].messages.push({
-                date: dayjs().format('DD/MM/YYYY HH:mm:ss'),
-                text: this.newMessageBody,
-                status: 'sent',
-            },);
-            this.newMessageBody = '';
+            if(this.newMessageBody.length > 0) {
+                this.contacts[this.activeAccount].messages.push({
+                    date: dayjs().format('DD/MM/YYYY HH:mm:ss'),
+                    text: this.newMessageBody,
+                    status: 'sent',
+                },);
+                this.autoScroll();
+                this.newMessageBody = '';
+            }
         },
 
         //////////////////
@@ -124,7 +127,16 @@ const app = new Vue({
                     text: 'ok bro',
                     status: 'received',
                 },);
-            },1000)
+                this.autoScroll();
+            },1000);
+        },
+
+        ///////////////
+
+        autoScroll() {
+                setTimeout(()=>{
+                    this.$refs.bodyMessage.scrollTop = this.$refs.bodyMessage.scrollHeight;
+                },1);
         },
     },
 });
