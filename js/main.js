@@ -51,7 +51,8 @@ const app = new Vue({
                         status: 'sent'
                     },
                 ],
-            },    {
+            },
+            {
                 name: 'Samuele',
                 avatar: '_3',
                 visible: true,
@@ -94,11 +95,13 @@ const app = new Vue({
         activeAccount: 0,
         newMessageBody: '',
         searchFor: '',
-        searchIsActive: false,
     },
     created() {
         dayjs.locale('it');
     },
+    // computed: {
+        
+    // },
     methods: {
         getActiveAccount(index) {
             this.activeAccount = index;
@@ -138,5 +141,42 @@ const app = new Vue({
                     this.$refs.bodyMessage.scrollTop = this.$refs.bodyMessage.scrollHeight;
                 },1);
         },
+
+        ////////////////
+
+        toggleFilter() {
+            this.searchIsActive = !this.searchIsActive;
+        },
+
+        /////////////////
+
+        activeFilter() {
+            this.searchIsActive = true;
+        },
+
+        /////////////////
+
+        disableFilter() {
+            this.searchIsActive = false;
+        },
+
+        ////////////////
+
+        logTest() {
+            console.log('test');
+        },
+
+        ////////////////
+
+        filterContacts() {
+            for (let i = 0; i < this.contacts.length; i++) {
+                if (this.contacts[i].name.toLowerCase().includes(this.searchFor.toLowerCase())) {
+                    this.contacts[i].visible = true;
+                } else {
+                    this.contacts[i].visible = false;
+                }
+            }
+        },
+
     },
 });

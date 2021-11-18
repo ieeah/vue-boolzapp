@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="./css/style.css">
     <title>Boolzapp</title>
 </head>
-<body>
+<body class="grid-center">
 
     <div id="app">
 
@@ -36,7 +36,7 @@
                     </div>
                     <div class="notification-details p-1">
                         <p class="fw-bold fsz-4">Ricevi notifiche di nuovi messaggi</p>
-                        <a class="fsz-5 secondary-color" href="#">Attiva notifiche Desktop</a>
+                        <a class="fsz-5 secondary-color" href="#" @click.prevent="">Attiva notifiche Desktop</a>
                     </div>
                 </div>
                 <div class="contact-list">
@@ -44,11 +44,11 @@
                         <div class="search-icon grid-center p-05">
                             <i class="fas fa-search primary-color"></i>
                         </div>
-                        <input v-model="searchFor" class="p-05" type="text" placeholder="Cerca o inizia una nuova chat">
+                        <input v-model="searchFor" class="p-05" type="text" placeholder="Cerca o inizia una nuova chat" @keyup="filterContacts()">
                     </div>
                     <div class="contacts-browser">
                         <ul>
-                            <li v-for="(person, index) in contacts" class="person flex al-items-c w-100 p-1" @click="getActiveAccount(index); autoScroll()">
+                            <li v-for="(person, index) in contacts" class="person flex al-items-c w-100 p-1" @click="getActiveAccount(index); autoScroll()" v-show="contacts[index].visible">
                                 <div class="avatar h-100 w-25">
                                     <img class="rounded" :src="`./img/avatar${contacts[index].avatar}.jpg`" alt="">
                                 </div>

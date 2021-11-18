@@ -36,6 +36,7 @@ i {
 
         /* width */
         .w-100 {width: 100%;}
+        .w-50 {width: 50%;}
         .w-25 {width: 25%;}
 
     /* flex */
@@ -55,6 +56,7 @@ i {
 
     /* border-radius */
     .rounded {border-radius: 50%;}
+    .pill {border-radius: 200px;}
     /* spacing */
         /* padding */
         .p-05 {padding: .4rem;}
@@ -67,7 +69,9 @@ i {
         .mr-1 {margin-right: .5rem;}
         .mr-2 {margin-right: .9rem;}
 
-        .mt-1 {margin-top: .4rem;}
+        .mt-1 {margin-top: .5rem;}
+
+        .my-1 {margin: .5rem;}
     /* typography */
         /* colors */
         .primary-color {color: var(--primary-color);}
@@ -87,12 +91,23 @@ i {
 
         /* aligning */
         .align-right {text-align: right;}
+
+    /* buttons */
+    .btn {
+        margin-inline: auto;
+        padding: 12px 18px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    /* backgrounds */
+    .primary-bg {background-color: var(--primary-color);}
+    .secondary-bg {background-color: var(--secondary-color);}
+    .tertiary-bg {background-color: var(--tertiary-color);}
 /* STYLING */
 body {
     height: 100vh;
     background: linear-gradient(to bottom, #66bcc7 0%, #66bcc7 15%, #dfe0d8 15%, #dfe0d8 100%);
-    display: grid;
-    place-items: center;
 }
 
 main {
