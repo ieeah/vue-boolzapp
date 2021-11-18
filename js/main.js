@@ -103,6 +103,7 @@ const app = new Vue({
     methods: {
         getActiveAccount(index) {
             this.activeAccount = index;
+            this.activeMessage = null;
         },
 
         /////////////////
@@ -113,8 +114,6 @@ const app = new Vue({
             } else {
                 this.activeMessage = null;
             }
-
-            console.log(this.activeMessage);
         },
 
         ///////////////
@@ -166,8 +165,15 @@ const app = new Vue({
 
         ///////////////////
 
-        showMessageOptions(i) {
-            
+        modifyMessage(i) {
+            const newText = prompt('inserisci il testo del nuovo messaggio');
+            this.contacts[this.activeAccount].messages[this.activeMessage].text = newText;
+        },
+
+        ///////////////////
+
+        logtest() {
+            console.log('test');
         },
     },
 });
