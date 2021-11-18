@@ -93,18 +93,27 @@ const app = new Vue({
             },
         ],
         activeAccount: 0,
+        activeMessage: null,
         newMessageBody: '',
         searchFor: '',
     },
     created() {
         dayjs.locale('it');
     },
-    // computed: {
-        
-    // },
     methods: {
         getActiveAccount(index) {
             this.activeAccount = index;
+        },
+
+        /////////////////
+
+        getActiveMessage(i) {
+            if(this.activeMessage == null || this.activeMessage != i) {
+                this.activeMessage = i;
+            } else {
+                this.activeMessage = null;
+            }
+            
         },
 
         ///////////////
@@ -144,30 +153,6 @@ const app = new Vue({
 
         ////////////////
 
-        toggleFilter() {
-            this.searchIsActive = !this.searchIsActive;
-        },
-
-        /////////////////
-
-        activeFilter() {
-            this.searchIsActive = true;
-        },
-
-        /////////////////
-
-        disableFilter() {
-            this.searchIsActive = false;
-        },
-
-        ////////////////
-
-        logTest() {
-            console.log('test');
-        },
-
-        ////////////////
-
         filterContacts() {
             for (let i = 0; i < this.contacts.length; i++) {
                 if (this.contacts[i].name.toLowerCase().includes(this.searchFor.toLowerCase())) {
@@ -178,5 +163,9 @@ const app = new Vue({
             }
         },
 
+        ///////////////////
+
+        showMessageOptions(i) {
+        },
     },
 });

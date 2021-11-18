@@ -48,6 +48,8 @@ i {
     .flex-columns {flex-direction: column;}
     .grow-1 {flex-grow: 1;}
 
+    /* display */
+    .d-none  {display: none;}
     /* grid */
     .grid-center {
         display: grid;
@@ -71,7 +73,9 @@ i {
 
         .mt-1 {margin-top: .5rem;}
 
-        .my-1 {margin: .5rem;}
+        .mb-1 {margin-bottom: 20px;}
+
+        .my-1 {margin-block: .5rem;}
     /* typography */
         /* colors */
         .primary-color {color: var(--primary-color);}
@@ -115,6 +119,11 @@ main {
     height: 94vh;
     display: flex;
     background-color: white;
+}
+
+.container {
+    overflow: hidden;
+    border-radius: 5px;
 }
 
 /* ASIDE */
@@ -225,11 +234,58 @@ input.message-input {
 
 .message {
     padding: 1rem;
-    border-radius: 8px;
-    min-width: 250px;
+    padding-top: 1.4rem;
+    border-radius: 10px;
     max-width: 450px;
     margin-bottom: 10px;
     overflow-wrap: break-word;
+    position: relative;
+}
+
+.message .messageOptions {
+    position: absolute;
+    right: 15px;
+    top: 5px;
+    width: fit-content;
+    background-color: transparent;
+    z-index: 2;
+    transition: all .1s ease-in-out;
+    opacity: 0;
+}
+.message .messageOptions.visible {
+    opacity: 1;
+}
+.message .fas {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    z-index: 1;
+}
+
+.messageOption {
+    padding: 10px 15px;
+    background-color: var(--senary-color);
+    border: 1px solid black;
+    min-width: 160px;
+    font-weight: bold;
+    position: relative;
+    top: 25px;
+}
+
+.messageOption:first-of-type {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.messageOption:last-of-type {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.messageOption:hover {
+    background-color: var(--primary-color);
+    color: var(--senary-color);
+    cursor: pointer;
 }
 
 .message.sent {
