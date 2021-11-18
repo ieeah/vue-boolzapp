@@ -113,7 +113,8 @@ const app = new Vue({
             } else {
                 this.activeMessage = null;
             }
-            
+
+            console.log(this.activeMessage);
         },
 
         ///////////////
@@ -166,6 +167,7 @@ const app = new Vue({
         ///////////////////
 
         showMessageOptions(i) {
+            
         },
     },
 });

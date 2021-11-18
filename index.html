@@ -79,8 +79,10 @@
                 </header>
                 <section class="body-message py-5 px-6 grow-1 w-100 flex flex-columns" ref="bodyMessage">
                     <div v-for="(message, i) in contacts[activeAccount].messages" class="message" :class="message.status">
-                        <i class="fas fa-angle-down secondary-color" @click="showMessageOptions(i), getActiveMessage(i)"></i>
-                        <div class="messageOptions align-right secondary-color fsz-4 flex flex-columns" :class="{visible: activeMessage === i}" ref="messageOptions">
+                        <div class="i_wrap grid-center" @click="getActiveMessage(i)">
+                            <i class="fas fa-angle-down secondary-color"></i>
+                        </div>
+                        <div v-if="activeMessage == i" class="messageOptions align-right secondary-color fsz-4 flex flex-columns" :class="{visible: activeMessage === i}" ref="messageOptions">
                             <span class="messageOption ìì align-right">Elimina Messaggio</span>
                             <span class="messageOption align-right">Modifica Messaggio</span>
                         </div>
