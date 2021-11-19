@@ -182,9 +182,17 @@ const app = new Vue({
         /////////////////////
 
         deleteMessage() {
-            this.contacts[this.activeAccount].messages.splice(this.activeMessage, 1);
 
-            this.activeMessage = null;
+            let areYouSure = confirm('Sei sicuro di voler eliminare questo messaggio?');
+
+            if (areYouSure) {
+                this.contacts[this.activeAccount].messages.splice(this.activeMessage, 1);
+
+                this.activeMessage = null;
+            } else {
+                this.activeMessage = null;
+            }
+            
         }
     },
 });
