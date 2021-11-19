@@ -96,6 +96,7 @@ const app = new Vue({
         activeMessage: null,
         newMessageBody: '',
         searchFor: '',
+        Message: '',
     },
     created() {
         dayjs.locale('it');
@@ -192,7 +193,17 @@ const app = new Vue({
             } else {
                 this.activeMessage = null;
             }
-            
-        }
+        },
+
+        /////////////////
+
+        lastMessage() {
+            for(let i = 0; i < this.contacts[this.activeAccount].messages.length; i++) {
+                let index = i;
+                
+            }
+
+            console.log(index);
+        },
     },
 });

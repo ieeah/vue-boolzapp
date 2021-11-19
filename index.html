@@ -18,10 +18,10 @@
         <main class="container">
             <aside class="contacts h-100">
                 <header class="user flex al-items-c w-100 p-1" >
-                    <div class="avatar h-100">
+                    <div class="avatar h-100 mr-2">
                         <img class="h-100 rounded" :src="`./img/avatar${user.avatar}.jpg`" :alt="`avatar of ${user.userName}`">
                     </div>
-                    <div class="details h-100 p-1 flex al-items-c">
+                    <div class="details h-100 flex al-items-c">
                         <h4>{{user.userName}}</h4>
                     </div>
                     <div class="actions h-100 flex al-items-c space-between fsz-3-2">
@@ -48,12 +48,13 @@
                     </div>
                     <div class="contacts-browser">
                         <ul>
-                            <li v-for="(person, index) in contacts" class="person flex al-items-c w-100 p-1" :class="{active: activeAccount == index}" @click="getActiveAccount(index); autoScroll()" v-show="person.visible">
+                            <li v-for="(person, index) in contacts" class="person flex al-items-c w-100 p-1" :class="{active: activeAccount == index}" @click="getActiveAccount(index); autoScroll();" v-show="person.visible">
                                 <div class="avatar h-100 w-25">
                                     <img class="rounded" :src="`./img/avatar${contacts[index].avatar}.jpg`" alt="">
                                 </div>
-                                <div class="details h-100 p-1 flex al-items-c">
+                                <div class="details h-100 p-1 flex flex-columns jcc">
                                     <h4>{{contacts[index].name}}</h4>
+                                    <div class="lastMessage fsz-4 secondary-color">{{ contacts[index].messages[0].text }}</div>
                                 </div>
                             </li>
                         </ul>
@@ -63,7 +64,7 @@
             <section class="message-area w-100 flex flex-columns">
                 <header class="active-contact w-100 p-1">
                     <div class="active-details w-100 h-100 flex al-items-c">
-                        <div class="active-avatar h-100">
+                        <div class="active-avatar h-100 mr-2">
                             <img class="h-100 rounded" :src="`./img/avatar${contacts[activeAccount].avatar}.jpg`" alt="">
                         </div>
                         <div class="details flex flex-columns grow-1">
@@ -91,7 +92,7 @@
                     </div>
                 </section>
                 <section class="new-message w-100 p-1 flex al-items-c space-around secondary-color">
-                    <div class="toggle-emojis fsz-2 p-2">
+                    <div class="toggle-emojis fsz-2 p-2" @click="lastMessage()">
                         <i class="far fa-smile"></i>
                     </div>
                         <input @keyup.enter="sendMessage(); botAnswer();" v-model.trim="newMessageBody" type="text" class="message-input grow-1 p-2 fsz-3-2" placeholder="Scrivi un messaggio">
