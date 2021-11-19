@@ -168,12 +168,23 @@ const app = new Vue({
         modifyMessage(i) {
             const newText = prompt('inserisci il testo del nuovo messaggio');
             this.contacts[this.activeAccount].messages[this.activeMessage].text = newText;
+            this.contacts[this.activeAccount].messages[this.activeMessage].date = `modificato il ${dayjs().format('DD/MM/YYYY HH:mm:ss')}`;
+
+            this.activeMessage = null;
         },
 
         ///////////////////
 
-        logtest() {
-            console.log('test');
+        logtest(i) {
+            console.log('test', i);
         },
+
+        /////////////////////
+
+        deleteMessage() {
+            this.contacts[this.activeAccount].messages.splice(this.activeMessage, 1);
+
+            this.activeMessage = null;
+        }
     },
 });

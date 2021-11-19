@@ -48,7 +48,7 @@
                     </div>
                     <div class="contacts-browser">
                         <ul>
-                            <li v-for="(person, index) in contacts" class="person flex al-items-c w-100 p-1" @click="getActiveAccount(index); autoScroll()" v-show="person.visible">
+                            <li v-for="(person, index) in contacts" class="person flex al-items-c w-100 p-1" :class="{active: activeAccount == index}" @click="getActiveAccount(index); autoScroll()" v-show="person.visible">
                                 <div class="avatar h-100 w-25">
                                     <img class="rounded" :src="`./img/avatar${contacts[index].avatar}.jpg`" alt="">
                                 </div>
@@ -84,9 +84,9 @@
                         </div>
                         <div v-if="activeMessage == i" class="messageOptions align-right secondary-color fsz-4 flex flex-columns" :class="{visible: activeMessage === i}" ref="messageOptions">
                             <div class="messageOption ìì align-right" @click="modifyMessage">Modifica Messaggio</div>
-                            <div class="messageOption align-right">Elimina Messaggio</div>
+                            <div class="messageOption align-right" @click="deleteMessage">Elimina Messaggio</div>
                         </div>
-                        <div class="sent-body">{{message.text}}</div>
+                        <div class="sent-body align-right">{{message.text}}</div>
                         <div class="sent-timestamp fsz-6 primary-color align-right mt-1">{{message.date}}</div>
                     </div>
                 </section>
