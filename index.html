@@ -54,7 +54,10 @@
                                 </div>
                                 <div class="details h-100 p-1 flex flex-columns jcc">
                                     <h4>{{contacts[index].name}}</h4>
-                                    <div class="lastMessage fsz-4 secondary-color">{{ contacts[index].messages[0].text }}</div>
+                                    <div class="lastMessage fsz-4 secondary-color">
+                                    {{ contacts[index].messages[contacts[index].messages.length - 1].text }}
+                                    </div>
+                                    <div class="secondary-color fsz-4">{{ contacts[index].messages[contacts[index].messages.length - 1].date }}</div>
                                 </div>
                             </li>
                         </ul>

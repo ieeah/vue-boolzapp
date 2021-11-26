@@ -174,12 +174,6 @@ const app = new Vue({
             this.activeMessage = null;
         },
 
-        ///////////////////
-
-        logtest(i) {
-            console.log('test', i);
-        },
-
         /////////////////////
 
         deleteMessage() {
@@ -200,10 +194,7 @@ const app = new Vue({
         lastMessage() {
             for(let i = 0; i < this.contacts[this.activeAccount].messages.length; i++) {
                 let index = i;
-                
             }
-
-            console.log(index);
         },
     },
 });
