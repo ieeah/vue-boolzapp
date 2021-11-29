@@ -52,7 +52,7 @@ i:hover {
     .grow-1 {flex-grow: 1;}
 
     /* display */
-    .d-none  {display: none;}
+    .d-none {display: none;}
     /* grid */
     .grid-center {
         display: grid;
@@ -203,6 +203,14 @@ input:focus {
 
 .person .avatar img {
     height: 100%;
+}
+
+.person .details {
+    width: 75%;
+}
+
+.person .details .last-access {
+    align-self: flex-end;
 }
 
 /* MESSAGE AREA */

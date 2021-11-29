@@ -26,7 +26,8 @@ const app = new Vue({
                     {
                         date: '10/01/2020 16:15:22',
                         text: 'Tutto fatto!',
-                        status: 'received'
+                        status: 'received',
+                        date_short: dayjs().format('DD/MM/YYYY'),
                     },
                 ],
             },
@@ -48,7 +49,8 @@ const app = new Vue({
                     {
                         date: '20/03/2020 16:35:00',
                         text: 'Mi piacerebbe ma devo andare a fare la spesa.',
-                        status: 'sent'
+                        status: 'sent',
+                        date_short: dayjs().format('DD/MM/YYYY'),
                     },
                 ],
             },
@@ -70,7 +72,8 @@ const app = new Vue({
                     {
                         date: '28/03/2020 16:15:22',
                         text: 'Ah scusa!',
-                        status: 'received'
+                        status: 'received',
+                        date_short: dayjs().format('DD/MM/YYYY'),
                     },
                 ],
             },
@@ -87,7 +90,8 @@ const app = new Vue({
                     {
                         date: '10/01/2020 15:50:00',
                         text: 'Si, ma preferirei andare al cinema',
-                        status: 'received'
+                        status: 'received',
+                        date_short: dayjs().format('DD/MM/YYYY'),
                     },
                 ],
             },
@@ -97,6 +101,12 @@ const app = new Vue({
         newMessageBody: '',
         searchFor: '',
         Message: '',
+        autoAnswers: [
+            'sarà stato un typone',
+            'solita situation',
+            'hai visto il nuovo farming simulator? tanta roba!',
+            'senza parole',
+        ],
     },
     created() {
         dayjs.locale('it');
@@ -123,6 +133,7 @@ const app = new Vue({
             if(this.newMessageBody.length > 0) {
                 this.contacts[this.activeAccount].messages.push({
                     date: dayjs().format('DD/MM/YYYY HH:mm:ss'),
+                    date_short: dayjs().format('DD/MM/YYYY'),
                     text: this.newMessageBody,
                     status: 'sent',
                 },);
@@ -137,7 +148,8 @@ const app = new Vue({
             setTimeout(()=> {
                 this.contacts[this.activeAccount].messages.push({
                     date: dayjs().format('DD/MM/YYYY HH:mm:ss'),
-                    text: 'ok bro',
+                    date_short: dayjs().format('DD/MM/YYYY'),
+                    text: this.autoAnswers[Math.floor(Math.random() * this.autoAnswers.length)],
                     status: 'received',
                 },);
                 this.autoScroll();
@@ -186,14 +198,6 @@ const app = new Vue({
                 this.activeMessage = null;
             } else {
                 this.activeMessage = null;
-            }
-        },
-
-        /////////////////
-
-        lastMessage() {
-            for(let i = 0; i < this.contacts[this.activeAccount].messages.length; i++) {
-                let index = i;
             }
         },
     },
