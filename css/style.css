@@ -21,7 +21,7 @@ i:hover {
     --quaternary-color: #ededed;
     --quinary-color: #fbfbfb;
     --senary-color: #f4f0ed;
-    --sent-color: #ddfabf;
+    --sent-color: rgb(221, 250, 191);
 
     --fsz-1: 2rem;
     --fsz-2: 1.8rem;
@@ -115,6 +115,7 @@ i:hover {
 body {
     height: 100vh;
     background: linear-gradient(to bottom, #66bcc7 0%, #66bcc7 15%, #dfe0d8 15%, #dfe0d8 100%);
+    overflow: hidden;
 }
 
 main {
@@ -266,12 +267,25 @@ input.message-input {
     position: relative;
 }
 
+.message .repliedMessage {
+    position: absolute;
+    top: -2rem;
+    right: 2rem;
+    /* FIXME - non trovo il modo di dare un posizionamento corretto a prescindere dalle dimensioni del messaggio a cui ri risponde */
+    background: white;
+    font-size: .85rem;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    z-index: 0;
+}
+
 .message .messageOptions {
     position: absolute;
     right: 15px;
     top: 5px;
     height: 1px;
-    z-index: 2;
+    z-index: 3;
     background-color: transparent;
     transition: all .1s ease-in-out;
     opacity: 0;
@@ -323,4 +337,45 @@ input.message-input {
 .message.received {
     align-self: flex-start;
     background-color: white;
+}
+
+.replyMessage {
+    position: absolute;
+    bottom: 140px;
+}
+
+.replyMessage.nope {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.replyMessage i.fas {
+    width: 15px;
+    aspect-ratio: 1 / 1;
+    margin-left: calc(100% - 15px);
+    margin-bottom: 10px;
+    color: var(--secondary-color);
+}
+
+.replyMessage .replyTo {
+    background: rgba(0, 0, 0, .1);
+    width: 100%;
+    min-height: 30px;
+    padding: 5px;
+    margin-bottom: 10px;
+    color:rgba(0, 0, 0, .6);
+    border-radius: 4px;
+}
+
+.replyMessage .replyInput {
+    background-color: rgba(255, 255, 255, .8);
+    padding: 5px 3px;
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: 4px;
+    width: 100%;
+    min-height: 15px;
+}
+
+.replyInput:focus {
+    outline: none;
 }
