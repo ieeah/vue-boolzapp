@@ -162,8 +162,9 @@ const app = new Vue({
 					replies_to: this.repliedMessage,
 				});
 				this.autoScroll();
-				this.repliedMessage = null;
 			}
+			this.repliedMessage = null;
+			this.replyingBody = null;
 		},
 
 		//////////////////
@@ -230,6 +231,7 @@ const app = new Vue({
 		replyToMessage(message) {
 			this.activeMessage = null;
 			this.repliedMessage = message.text;
+			document.get
 		},
 
 		/////////////
