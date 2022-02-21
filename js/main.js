@@ -247,12 +247,19 @@ const app = new Vue({
 	chatOptions() {
 		console.log('cliccato chat options');
 	},
+		////////////////////////
 
+	
 	computed: {
 		replying() {
 			if (this.repliedMessage) {
 				return false;
 			} else return true
+		},
+
+		lastMessage() {
+			let lastIndex = this.contacts[this.activeAccount].messages.length - 1;
+			return lastIndex;
 		},
 	},
 });

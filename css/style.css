@@ -376,3 +376,43 @@ input.message-input {
 .replyInput:focus {
     outline: none;
 }
+
+.chat-options {
+    height: 30%;
+    background-color: var(--quaternary-color);
+}
+
+.chat-options .top {
+    height: 50px;
+    line-height: 50px;
+    background-color: var(--senary-color);
+    padding-left: calc(1.4rem + 54px);
+}
+
+.chat-options .bottom {
+    display: flex;
+    height: calc(100% - 50px);
+    border: 1px solid rgba(0, 0, 0, .1);
+}
+
+.chat-options .bottom .left,
+.chat-options .bottom .right {
+    height: 100%;
+    padding: 1rem;
+}
+
+.chat-options .bottom .left {
+    width: 35%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid rgba(0, 0, 0, .1);
+}
+.chat-options .bottom .left img {
+    height: 75%;
+    box-shadow: 0 0 15px rgba(0, 0, 10, .2),
+    0 0 35px rgba(0, 0, 10, .1);
+}
+.chat-options .bottom .right {
+    width: 65%;
+}

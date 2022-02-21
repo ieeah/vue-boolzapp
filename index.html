@@ -117,6 +117,35 @@
 						@keyup.enter="reply()">
 					</div>
 				</section>
+				<div class="chat-options">
+					<div class="top">
+						<h4>Chat con: {{contacts[activeAccount].name}}</h4>
+					</div>
+					<div class="bottom">
+						<div class="left">
+							<img class="rounded" :src="`./img/avatar${contacts[activeAccount].avatar}.jpg`" alt="">
+						</div>
+						<div class="right">
+							<div class="last_message">
+								<h5>Ultimo messaggio:</h5>
+								<p class=>{{contacts[activeAccount].messages[lastMessage].text}}</p>
+								<p v-if="contacts[activeAccount].messages[lastMessage].status === 'received'">ricevuto il {{contacts[activeAccount].messages[lastMessage].date}}</p>
+								<p v-if="contacts[activeAccount].messages[lastMessage].status === 'sent'">inviato il {{contacts[activeAccount].messages[lastMessage].date}}</p>
+							</div>
+
+							<!-- TODO - stile singoli campi e messaggi -->
+							<!-- TODO - possibilità di inviare foto e gif -->
+							
+
+							<h5>Numero messaggi:</h5>
+
+							<div class="medias">
+								<h5>Media:</h5>
+								<h6>coming soon</h6>
+							</div>
+						</div>
+					</div>
+				</div>
 				<section class="new-message w-100 p-1 flex al-items-c space-around secondary-color">
 					<div class="toggle-emojis fsz-2 p-2" @click="lastMessage()">
 						<i class="far fa-smile"></i>
