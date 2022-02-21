@@ -84,6 +84,7 @@
 					</div>
 				</header>
 				<section class="body-message py-5 px-6 grow-1 w-100 flex flex-columns" ref="bodyMessage">
+					
 					<div v-for="(message, i) in contacts[activeAccount].messages" class="message" :class="message.status">
 						<div v-if="message.replies_to" class="repliedMessage">
 							{{message.replies_to}}

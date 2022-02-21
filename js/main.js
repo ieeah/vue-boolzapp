@@ -231,7 +231,7 @@ const app = new Vue({
 		replyToMessage(message) {
 			this.activeMessage = null;
 			this.repliedMessage = message.text;
-			document.get
+			this.$refs.reply.focus();
 		},
 
 		/////////////
@@ -241,6 +241,13 @@ const app = new Vue({
 			this.replyingBody = null;
 		},
 	},
+
+	////////////////
+
+	chatOptions() {
+		console.log('cliccato chat options');
+	},
+
 	computed: {
 		replying() {
 			if (this.repliedMessage) {
