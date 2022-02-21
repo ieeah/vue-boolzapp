@@ -101,6 +101,8 @@ const app = new Vue({
 		newMessageBody: '',
 		searchFor: '',
 		Message: '',
+		repliedMessage: '',
+		replyingBody: '',
 		autoAnswers: [
 			'sarà stato un typone',
 			'solita situation',
@@ -146,6 +148,23 @@ const app = new Vue({
 				this.autoScroll();
 				this.newMessageBody = '';
 			}
+		},
+
+		/////////////////
+
+		reply() {
+			if(this.replyingBody.length > 0) {
+				this.contacts[this.activeAccount].messages.push({
+					date: dayjs().format('DD/MM/YYYY HH:mm:ss'),
+					date_short: dayjs().format('DD/MM/YYYY'),
+					text: this.replyingBody,
+					status: 'sent',
+					replies_to: this.repliedMessage,
+				});
+				this.autoScroll();
+			}
+			this.repliedMessage = null;
+			this.replyingBody = null;
 		},
 
 		//////////////////
@@ -205,6 +224,35 @@ const app = new Vue({
 			} else {
 				this.activeMessage = null;
 			}
+		},
+
+		////////////////
+
+		replyToMessage(message) {
+			this.activeMessage = null;
+			this.repliedMessage = message.text;
+			this.$refs.reply.focus();
+		},
+
+		/////////////
+
+		closeReplying() {
+			this.repliedMessage = null;
+			this.replyingBody = null;
+		},
+	},
+
+	////////////////
+
+	chatOptions() {
+		console.log('cliccato chat options');
+	},
+
+	computed: {
+		replying() {
+			if (this.repliedMessage) {
+				return false;
+			} else return true
 		},
 	},
 });

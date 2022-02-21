@@ -50,7 +50,7 @@
 					</div>
 					<div class="contacts-browser">
 						<ul>
-							<li v-for="(person, index) in contacts" class="person flex al-items-c w-100 p-1" :class="{active: activeAccount == index}" @click="getActiveAccount(index); autoScroll();" v-show="person.visible">
+							<li v-for="(person, index) in contacts" class="person flex al-items-c w-100 p-1" :class="{active: activeAccount == index}" @click="getActiveAccount(index); autoScroll(); closeReplying()" v-show="person.visible">
 								<div class="avatar h-100 w-25">
 									<img class="rounded" :src="`./img/avatar${contacts[index].avatar}.jpg`" alt="">
 								</div>
@@ -84,7 +84,11 @@
 					</div>
 				</header>
 				<section class="body-message py-5 px-6 grow-1 w-100 flex flex-columns" ref="bodyMessage">
+					
 					<div v-for="(message, i) in contacts[activeAccount].messages" class="message" :class="message.status">
+						<div v-if="message.replies_to" class="repliedMessage">
+							{{message.replies_to}}
+						</div>
 						<div class="i_wrap grid-center" @click="getActiveMessage(i)">
 							<i class="fas fa-angle-down secondary-color"></i>
 						</div>
@@ -95,9 +99,22 @@
 							<div class="messageOption align-right" @click="deleteMessage">Elimina Messaggio
 							
 							</div>
+							<div
+							v-if="contacts[activeAccount].messages[activeMessage].status == 'received'"
+							class="messageOption align-right"
+							@click="closeReplying(), replyToMessage(contacts[activeAccount].messages[i])">Rispondi
+							</div>
 						</div>
 						<div class="sent-body align-right">{{message.text}}</div>
 						<div class="sent-timestamp fsz-6 primary-color align-right mt-1">{{message.date}}</div>
+					</div>
+					<div class="replyMessage message sent"
+					:class="{nope: replying}">
+						<i class="fas fa-times"
+						@click="closeReplying"></i>
+						<div class="replyTo">{{repliedMessage}}</div>
+						<input v-model="replyingBody" class="replyInput" type="text" placeholder="Scrivi una risposta" ref="reply"
+						@keyup.enter="reply()">
 					</div>
 				</section>
 				<section class="new-message w-100 p-1 flex al-items-c space-around secondary-color">
