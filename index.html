@@ -50,7 +50,7 @@
 					</div>
 					<div class="contacts-browser">
 						<ul>
-							<li v-for="(person, index) in contacts" class="person flex al-items-c w-100 p-1" :class="{active: activeAccount == index}" @click="getActiveAccount(index); autoScroll();" v-show="person.visible">
+							<li v-for="(person, index) in contacts" class="person flex al-items-c w-100 p-1" :class="{active: activeAccount == index}" @click="getActiveAccount(index); autoScroll(); closeReplying()" v-show="person.visible">
 								<div class="avatar h-100 w-25">
 									<img class="rounded" :src="`./img/avatar${contacts[index].avatar}.jpg`" alt="">
 								</div>
