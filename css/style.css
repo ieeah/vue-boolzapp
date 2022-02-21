@@ -268,15 +268,15 @@ input.message-input {
 }
 
 .message .repliedMessage {
-    position: absolute;
-    top: -50%;
-    right: 2rem;
+    /* position: absolute;
+    left: 0; */
+    transform: translate(-1.8rem, 0);
     /* FIXME - non trovo il modo di dare un posizionamento corretto a prescindere dalle dimensioni del messaggio a cui ri risponde */
-    background: white;
+    background: rgba(0, 0, 0, .2);
     font-size: .85rem;
     padding: 5px;
     margin-block: 5px;
-    border-radius: 10px;
+    border-radius: 8px;
     z-index: 0;
 }
 

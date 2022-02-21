@@ -238,6 +238,7 @@ const app = new Vue({
 
 		closeReplying() {
 			this.repliedMessage = null;
+			this.replyingBody = null;
 		},
 	},
 	computed: {
