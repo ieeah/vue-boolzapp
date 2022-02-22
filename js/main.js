@@ -147,6 +147,7 @@ const app = new Vue({
 				},);
 				this.autoScroll();
 				this.newMessageBody = '';
+				this.botAnswer();
 			}
 		},
 
@@ -247,6 +248,21 @@ const app = new Vue({
 			if (this.$refs.chatOptions.style.height != '0px') {
 				this.$refs.chatOptions.style.height = '0px'; 
 			} else this.$refs.chatOptions.style.height = '30%';
+		},
+
+		//////////////
+
+		sendAPicture() {
+			let url = prompt('Inserisci l\ url della foto da inviare');
+			this.contacts[this.activeAccount].messages.push({
+				date: dayjs().format('DD/MM/YYYY HH:mm:ss'),
+					date_short: dayjs().format('DD/MM/YYYY'),
+					text: this.newMessageBody,
+					status: 'sent',
+					pic: url,
+			});
+			this.autoScroll();
+			this.botAnswer();
 		},
 	},
 	computed: {

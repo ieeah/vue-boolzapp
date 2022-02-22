@@ -336,6 +336,10 @@ input.message-input {
     background-color: white;
 }
 
+.message .message_picture img {
+    max-width: 100%;
+}
+
 .replyMessage {
     position: absolute;
     bottom: 140px;
