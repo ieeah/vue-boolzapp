@@ -79,7 +79,8 @@
 						<div class="active-actions fsz-3-2 primary-color">
 							<i class="fas fa-search mr-2"></i>
 							<i class="fas fa-paperclip mr-2"></i>
-							<i class="fas fa-ellipsis-v mr-2"></i>
+							<i class="fas fa-ellipsis-v mr-2"
+							@click="toggleChatInfos"></i>
 						</div>
 					</div>
 				</header>
@@ -117,32 +118,39 @@
 						@keyup.enter="reply()">
 					</div>
 				</section>
-				<div class="chat-options">
+				<div class="chat-options" ref="chatOptions">
 					<div class="top">
 						<h4>Chat con: {{contacts[activeAccount].name}}</h4>
+						<div class="close">
+							<i class="fas fa-times"
+							@click="toggleChatInfos"></i>
+						</div>
 					</div>
 					<div class="bottom">
 						<div class="left">
 							<img class="rounded" :src="`./img/avatar${contacts[activeAccount].avatar}.jpg`" alt="">
 						</div>
 						<div class="right">
+
 							<div class="last_message">
 								<h5>Ultimo messaggio:</h5>
-								<p class=>{{contacts[activeAccount].messages[lastMessage].text}}</p>
+								<p class="body">{{contacts[activeAccount].messages[lastMessage].text}}</p>
 								<p v-if="contacts[activeAccount].messages[lastMessage].status === 'received'">ricevuto il {{contacts[activeAccount].messages[lastMessage].date}}</p>
 								<p v-if="contacts[activeAccount].messages[lastMessage].status === 'sent'">inviato il {{contacts[activeAccount].messages[lastMessage].date}}</p>
 							</div>
 
-							<!-- TODO - stile singoli campi e messaggi -->
-							<!-- TODO - possibilità di inviare foto e gif -->
-							
-
-							<h5>Numero messaggi:</h5>
+							<div class="message_counter">
+								<h5>Numero messaggi:</h5>
+								<div class="counter">
+									{{contacts[activeAccount].messages.length}}
+								</div>
+							</div>
 
 							<div class="medias">
 								<h5>Media:</h5>
 								<h6>coming soon</h6>
 							</div>
+
 						</div>
 					</div>
 				</div>
