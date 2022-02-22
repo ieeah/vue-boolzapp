@@ -240,19 +240,25 @@ const app = new Vue({
 			this.repliedMessage = null;
 			this.replyingBody = null;
 		},
+
+		//////////////////
+
+		toggleChatInfos() {
+			if (this.$refs.chatOptions.style.height != '0px') {
+				this.$refs.chatOptions.style.height = '0px'; 
+			} else this.$refs.chatOptions.style.height = '30%';
+		},
 	},
-
-	////////////////
-
-	chatOptions() {
-		console.log('cliccato chat options');
-	},
-
 	computed: {
 		replying() {
 			if (this.repliedMessage) {
 				return false;
 			} else return true
+		},
+
+		lastMessage() {
+			let lastIndex = this.contacts[this.activeAccount].messages.length - 1;
+			return lastIndex;
 		},
 	},
 });
