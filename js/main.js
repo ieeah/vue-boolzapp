@@ -162,10 +162,11 @@ const app = new Vue({
 					status: 'sent',
 					replies_to: this.repliedMessage,
 				});
-				this.autoScroll();
 			}
 			this.repliedMessage = null;
 			this.replyingBody = null;
+			this.botAnswer();
+			this.autoScroll();
 		},
 
 		//////////////////
