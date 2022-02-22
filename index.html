@@ -95,7 +95,8 @@
 							<i class="fas fa-angle-down secondary-color"></i>
 						</div>
 						<div v-if="activeMessage == i" class="messageOptions align-right secondary-color fsz-4 flex flex-columns" :class="{visible: activeMessage === i}" ref="messageOptions">
-							<div class="messageOption align-right" @click="modifyMessage">Modifica Messaggio
+							<div
+							v-if="contacts[activeAccount].messages[activeMessage].status == 'sent'" class="messageOption align-right" @click="modifyMessage">Modifica Messaggio
 							
 							</div>
 							<div class="messageOption align-right" @click="deleteMessage">Elimina Messaggio
