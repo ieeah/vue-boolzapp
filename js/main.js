@@ -255,15 +255,19 @@ const app = new Vue({
 
 		sendAPicture() {
 			let url = prompt('Inserisci l\ url della foto da inviare');
+			if (!url) { return alert('il link inserito non è valido'); }
+			if (!url.includes('https://')) { return alert('il link inserito non è valido'); }
+			
 			this.contacts[this.activeAccount].messages.push({
 				date: dayjs().format('DD/MM/YYYY HH:mm:ss'),
-					date_short: dayjs().format('DD/MM/YYYY'),
-					text: this.newMessageBody,
-					status: 'sent',
-					pic: url,
+				date_short: dayjs().format('DD/MM/YYYY'),
+				text: this.newMessageBody,
+				status: 'sent',
+				pic: url,
 			});
 			this.autoScroll();
 			this.botAnswer();
+			
 		},
 	},
 	computed: {
