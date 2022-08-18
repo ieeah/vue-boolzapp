@@ -1,185 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css' integrity='sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==' crossorigin='anonymous'/>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="./css/style.css">
-	<title>Boolzapp</title>
-</head>
-<body class="grid-center">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+      integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Boolzapp</title>
+  </head>
+  <body class="grid-center">
+    <div id="app">
+      <main class="container">
+        <div
+          class="clickable_overlay"
+          :class="{clickable: activeMessage != null}"
+          @click="resetActiveMessage()"
+        ></div>
+        <aside class="contacts h-100">
+          <header class="user flex al-items-c w-100 p-1">
+            <div class="avatar h-100 mr-2">
+              <img
+                class="h-100 rounded"
+                :src="`./img/avatar${user.avatar}.jpg`"
+                :alt="`avatar of ${user.userName}`"
+              />
+            </div>
+            <div class="details h-100 flex al-items-c">
+              <h4>{{user.userName}}</h4>
+            </div>
+            <div class="actions h-100 flex al-items-c space-between fsz-3-2">
+              <i class="fas fa-circle-notch mr-1"></i>
+              <i class="fas fa-comment-alt mr-1"></i>
+              <i class="fas fa-ellipsis-v mr-1"></i>
+            </div>
+          </header>
+          <div class="notifications-alert w-100 flex al-items-c p-1">
+            <div class="notification-bell rounded grid-center">
+              <i class="fas fa-bell-slash fsz-3"></i>
+            </div>
+            <div class="notification-details p-1">
+              <p class="fw-bold fsz-4">Ricevi notifiche di nuovi messaggi</p>
+              <a class="fsz-5 secondary-color" href="#" @click.prevent=""
+                >Attiva notifiche Desktop</a
+              >
+            </div>
+          </div>
+          <div class="contact-list">
+            <div class="search-bar flex al-items-c p-1">
+              <div class="search-icon grid-center p-05">
+                <i class="fas fa-search primary-color"></i>
+              </div>
+              <input
+                v-model.trim="searchFor"
+                aria-label="Cerca tra i contatti"
+                class="p-05"
+                type="text"
+                placeholder="Cerca o inizia una nuova chat"
+                @keyup="filterContacts()"
+              />
+            </div>
+            <div class="contacts-browser">
+              <ul>
+                <li
+                  v-for="(person, index) in contacts"
+                  class="person flex al-items-c w-100 p-1"
+                  :class="{active: activeAccount == index}"
+                  @click="resetVisibleMessages();
+                    resetFilteringMessages();
+                    closeFilteringMessages();
+                    getActiveAccount(index);
+                    autoScroll();
+                    closeReplying()"
+                  v-show="person.visible"
+                >
+                  <div class="avatar h-100 w-25">
+                    <img
+                      class="rounded"
+                      :src="`./img/avatar${contacts[index].avatar}.jpg`"
+                      alt=""
+                    />
+                  </div>
+                  <div class="details h-100 p-1 flex flex-columns jcc">
+                    <h4>{{contacts[index].name}}</h4>
+                    <div class="lastMessage fsz-4 secondary-color">
+                      {{
+                      contacts[index].messages[contacts[index].messages.length -
+                      1].text }}
+                    </div>
+                    <div class="secondary-color fsz-5 last-access">
+                      {{
+                      contacts[index].messages[contacts[index].messages.length -
+                      1].date_short }}
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </aside>
+        <section class="message-area w-100 flex flex-columns">
+          <header class="active-contact w-100 p-1">
+            <div class="active-details w-100 h-100 flex al-items-c">
+              <div class="active-avatar h-100 mr-2">
+                <img
+                  class="h-100 rounded"
+                  :src="`./img/avatar${contacts[activeAccount].avatar}.jpg`"
+                  alt=""
+                />
+              </div>
+              <div class="details flex flex-columns grow-1">
+                <h4 class="contact-name">{{contacts[activeAccount].name}}</h4>
+                <div class="last-access secondary-color fsz-5">
+                  Ultimo Accesso
+                </div>
+              </div>
+              <div class="active-actions fsz-3-2 primary-color">
+                <i
+                  class="fas fa-search mr-2"
+                  @click="toggleFilteringMessages(); resetSearchForMessage(); resetFilteringMessages()"
+                ></i>
+                <i class="fa-solid fa-camera mr-2" @click="sendAPicture"></i>
+                <i class="fas fa-ellipsis-v mr-2" @click="toggleChatInfos"></i>
+              </div>
+            </div>
+          </header>
+          <section
+            class="body-message py-5 px-6 grow-1 w-100 flex flex-columns"
+            ref="bodyMessage"
+          >
+            <div
+              class="filter-messages-bar pill no-border tertiary-bg mb-1 flex p-1"
+              v-if="filteringMessages"
+            >
+              <input
+                type="text"
+                name="filter-message-input"
+                id="filter-message-input"
+                aria-label="Filtra i messaggi per testo"
+                class="pill h-100 mr-1 p-05"
+                placeholder="Filtra i messaggi per testo"
+                v-model.trim="searchForMessage"
+                @keyup="searchMessage()"
+              />
+              <button
+                type="button"
+                class="pill btn no-border h-100 p-0"
+                @click="resetFilteringMessages(); toggleFilteringMessages()"
+              >
+                <i class="fa-solid fa-xmark mr-1"></i>
+                <span>Vedi tutti i messaggi</span>
+              </button>
+            </div>
 
-	<div id="app">
-		<main class="container">
-			<div class="clickable_overlay"
-			:class="{clickable: activeMessage != null}"
-			@click="resetActiveMessage()"></div>
-			<aside class="contacts h-100">
-				<header class="user flex al-items-c w-100 p-1" >
-					<div class="avatar h-100 mr-2">
-						<img class="h-100 rounded" :src="`./img/avatar${user.avatar}.jpg`" :alt="`avatar of ${user.userName}`">
-					</div>
-					<div class="details h-100 flex al-items-c">
-						<h4>{{user.userName}}</h4>
-					</div>
-					<div class="actions h-100 flex al-items-c space-between fsz-3-2">
-						<i class="fas fa-circle-notch mr-1"></i>
-						<i class="fas fa-comment-alt mr-1"></i>
-						<i class="fas fa-ellipsis-v mr-1"></i>
-					</div>
-				</header>
-				<div class="notifications-alert w-100 flex al-items-c p-1">
-					<div class="notification-bell rounded grid-center">
-						<i class="fas fa-bell-slash fsz-3"></i>
-					</div>
-					<div class="notification-details p-1">
-						<p class="fw-bold fsz-4">Ricevi notifiche di nuovi messaggi</p>
-						<a class="fsz-5 secondary-color" href="#" @click.prevent="">Attiva notifiche Desktop</a>
-					</div>
-				</div>
-				<div class="contact-list">
-					<div class="search-bar flex al-items-c p-1">
-						<div class="search-icon grid-center p-05">
-							<i class="fas fa-search primary-color"></i>
-						</div>
-						<input v-model.trim="searchFor" class="p-05" type="text" placeholder="Cerca o inizia una nuova chat" @keyup="filterContacts()">
-					</div>
-					<div class="contacts-browser">
-						<ul>
-							<li v-for="(person, index) in contacts" class="person flex al-items-c w-100 p-1" :class="{active: activeAccount == index}" @click="getActiveAccount(index); autoScroll(); closeReplying()" v-show="person.visible">
-								<div class="avatar h-100 w-25">
-									<img class="rounded" :src="`./img/avatar${contacts[index].avatar}.jpg`" alt="">
-								</div>
-								<div class="details h-100 p-1 flex flex-columns jcc">
-									<h4>{{contacts[index].name}}</h4>
-									<div class="lastMessage fsz-4 secondary-color">
-									{{ contacts[index].messages[contacts[index].messages.length - 1].text }}
-									</div>
-									<div class="secondary-color fsz-5 last-access">{{ contacts[index].messages[contacts[index].messages.length - 1].date_short }}</div>
-								</div>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</aside>
-			<section class="message-area w-100 flex flex-columns">
-				<header class="active-contact w-100 p-1">
-					<div class="active-details w-100 h-100 flex al-items-c">
-						<div class="active-avatar h-100 mr-2">
-							<img class="h-100 rounded" :src="`./img/avatar${contacts[activeAccount].avatar}.jpg`" alt="">
-						</div>
-						<div class="details flex flex-columns grow-1">
-							<h4 class="contact-name">{{contacts[activeAccount].name}}</h4>
-							<div class="last-access secondary-color fsz-5">Ultimo Accesso</div>
-						</div>
-						<div class="active-actions fsz-3-2 primary-color">
-							<i class="fas fa-search mr-2"></i>
-							<i class="fa-solid fa-camera mr-2"
-							@click="sendAPicture"></i>
-							<i class="fas fa-ellipsis-v mr-2"
-							@click="toggleChatInfos"></i>
-						</div>
-					</div>
-				</header>
-				<section class="body-message py-5 px-6 grow-1 w-100 flex flex-columns" ref="bodyMessage">
-					
-					<div v-for="(message, i) in contacts[activeAccount].messages" class="message" :class="message.status">
-						<div v-if="message.replies_to" class="repliedMessage">
-							{{message.replies_to}}
-						</div>
-						<div class="i_wrap grid-center" @click="getActiveMessage(i)">
-							<i class="fas fa-angle-down secondary-color"></i>
-						</div>
-						<div v-if="activeMessage == i" class="messageOptions align-right secondary-color fsz-4 flex flex-columns" :class="{visible: activeMessage === i}" ref="messageOptions">
-							<div
-							v-if="contacts[activeAccount].messages[activeMessage].status == 'sent'" class="messageOption align-right" @click="modifyMessage">Modifica Messaggio
-							
-							</div>
-							<div class="messageOption align-right" @click="deleteMessage">Elimina Messaggio
-							
-							</div>
-							<div
-							v-if="contacts[activeAccount].messages[activeMessage].status == 'received'"
-							class="messageOption align-right"
-							@click="closeReplying(), replyToMessage(contacts[activeAccount].messages[i])">Rispondi
-							</div>
-						</div>
-						<div v-if="message.text" class="sent-body align-right">
-							{{message.text}}
-						</div>
-						<div v-if="message.pic" class="message_picture">
-							<img :src="message.pic" alt="">
-						</div>
-						<div class="sent-timestamp fsz-6 primary-color align-right mt-1">
-							{{message.date}}
-						</div>
-					</div>
-					<div class="replyMessage message sent"
-					:class="{nope: replying}">
-						<i class="fas fa-times"
-						@click="closeReplying"></i>
-						<div class="replyTo">{{repliedMessage}}</div>
-						<input v-model="replyingBody" class="replyInput" type="text" placeholder="Scrivi una risposta" ref="reply"
-						@keyup.enter="reply()">
-					</div>
-				</section>
-				<div class="chat-options" ref="chatOptions" style="height: 0px;">
-					<div class="top">
-						<h4>Chat con: {{contacts[activeAccount].name}}</h4>
-						<div class="close">
-							<i class="fas fa-times"
-							@click="toggleChatInfos"></i>
-						</div>
-					</div>
-					<div class="bottom">
-						<div class="left">
-							<img class="rounded" :src="`./img/avatar${contacts[activeAccount].avatar}.jpg`" alt="">
-						</div>
-						<div class="right">
+            <div
+              v-for="(message, i) in contacts[activeAccount].messages"
+              class="message"
+              :class="message.status"
+              v-if="message.visible"
+            >
+              <div v-if="message.replies_to" class="repliedMessage">
+                {{message.replies_to}}
+              </div>
+              <div class="i_wrap grid-center" @click="getActiveMessage(i)">
+                <i class="fas fa-angle-down secondary-color"></i>
+              </div>
+              <div
+                v-if="activeMessage == i"
+                class="messageOptions align-right secondary-color fsz-4 flex flex-columns"
+                :class="{visible: activeMessage === i}"
+                ref="messageOptions"
+              >
+                <div
+                  v-if="contacts[activeAccount].messages[activeMessage].status == 'sent'"
+                  class="messageOption align-right"
+                  @click="modifyMessage"
+                >
+                  Modifica Messaggio
+                </div>
+                <div class="messageOption align-right" @click="deleteMessage">
+                  Elimina Messaggio
+                </div>
+                <div
+                  v-if="contacts[activeAccount].messages[activeMessage].status == 'received'"
+                  class="messageOption align-right"
+                  @click="closeReplying(), replyToMessage(contacts[activeAccount].messages[i])"
+                >
+                  Rispondi
+                </div>
+              </div>
+              <div v-if="message.text" class="sent-body align-right">
+                {{message.text}}
+              </div>
+              <div v-if="message.pic" class="message_picture">
+                <img :src="message.pic" alt="" />
+              </div>
+              <div class="sent-timestamp fsz-6 primary-color align-right mt-1">
+                {{message.date}}
+              </div>
+            </div>
+            <div class="replyMessage message sent" :class="{nope: replying}">
+              <i class="fas fa-times" @click="closeReplying"></i>
+              <div class="replyTo">{{repliedMessage}}</div>
+              <input
+                v-model="replyingBody"
+                class="replyInput"
+                type="text"
+                placeholder="Scrivi una risposta"
+                ref="reply"
+                @keyup.enter="reply()"
+              />
+            </div>
+          </section>
+          <div class="chat-options" ref="chatOptions" style="height: 0px">
+            <div class="top">
+              <h4>Chat con: {{contacts[activeAccount].name}}</h4>
+              <div class="close">
+                <i class="fas fa-times" @click="toggleChatInfos"></i>
+              </div>
+            </div>
+            <div class="bottom">
+              <div class="left">
+                <img
+                  class="rounded"
+                  :src="`./img/avatar${contacts[activeAccount].avatar}.jpg`"
+                  alt=""
+                />
+              </div>
+              <div class="right">
+                <div class="first_message">
+                  <h5>Primo messaggio</h5>
+                  <p class="body">
+                    {{contacts[activeAccount].messages[0].text}}
+                  </p>
+                </div>
 
-							<div class="first_message">
-								<h5>Primo messaggio</h5>
-								<p class="body">{{contacts[activeAccount].messages[0].text}}</p>
-							</div>
+                <div class="last_message">
+                  <h5>Ultimo messaggio:</h5>
+                  <p class="body">
+                    {{contacts[activeAccount].messages[lastMessage].text}}
+                  </p>
+                  <p
+                    v-if="contacts[activeAccount].messages[lastMessage].status === 'received'"
+                  >
+                    ricevuto il
+                    {{contacts[activeAccount].messages[lastMessage].date}}
+                  </p>
+                  <p
+                    v-if="contacts[activeAccount].messages[lastMessage].status === 'sent'"
+                  >
+                    inviato il
+                    {{contacts[activeAccount].messages[lastMessage].date}}
+                  </p>
+                </div>
 
-							<div class="last_message">
-								<h5>Ultimo messaggio:</h5>
-								<p class="body">{{contacts[activeAccount].messages[lastMessage].text}}</p>
-								<p v-if="contacts[activeAccount].messages[lastMessage].status === 'received'">ricevuto il {{contacts[activeAccount].messages[lastMessage].date}}</p>
-								<p v-if="contacts[activeAccount].messages[lastMessage].status === 'sent'">inviato il {{contacts[activeAccount].messages[lastMessage].date}}</p>
-							</div>
+                <div class="message_counter">
+                  <h5>Numero messaggi:</h5>
+                  <div class="counter">
+                    {{contacts[activeAccount].messages.length}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <section
+            class="new-message w-100 p-1 flex al-items-c space-around secondary-color"
+          >
+            <div class="toggle-emojis fsz-2 p-2" @click="lastMessage()">
+              <i class="far fa-smile"></i>
+            </div>
+            <input
+              @keyup.enter="sendMessage()"
+              aria-label="Scrivi un nuovo messaggio"
+              v-model.trim="newMessageBody"
+              type="text"
+              class="message-input grow-1 p-2 fsz-3-2"
+              placeholder="Scrivi un messaggio"
+            />
+            <div class="audio">
+              <i class="fas fa-microphone fsz-2 p-2"></i>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
 
-							<div class="message_counter">
-								<h5>Numero messaggi:</h5>
-								<div class="counter">
-									{{contacts[activeAccount].messages.length}}
-								</div>
-							</div>
-
-						</div>
-					</div>
-				</div>
-				<section class="new-message w-100 p-1 flex al-items-c space-around secondary-color">
-					<div class="toggle-emojis fsz-2 p-2" @click="lastMessage()">
-						<i class="far fa-smile"></i>
-					</div>
-						<input @keyup.enter="sendMessage()" v-model.trim="newMessageBody" type="text" class="message-input grow-1 p-2 fsz-3-2" placeholder="Scrivi un messaggio">
-					<div class="audio">
-						<i class="fas fa-microphone fsz-2 p-2"></i>
-					</div>
-				</section>
-			</section>
-		</main>
-
-	</div>
-	
-	<!-- JS -->
-	<script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/dayjs.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/locale/it.js"></script>
-	<script src="./js/main.js"></script>
-</body>
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/locale/it.js"></script>
+    <script src="./js/main.js"></script>
+  </body>
 </html>
