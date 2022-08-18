@@ -76,12 +76,10 @@
                   v-for="(person, index) in contacts"
                   class="person flex al-items-c w-100 p-1"
                   :class="{active: activeAccount == index}"
-                  @click="resetVisibleMessages();
-                    resetFilteringMessages();
-                    closeFilteringMessages();
-                    getActiveAccount(index);
+                  @click="getActiveAccount(index);
                     autoScroll();
-                    closeReplying()"
+                    closeReplying();
+                    closeSearchBar()"
                   v-show="person.visible"
                 >
                   <div class="avatar h-100 w-25">
@@ -109,7 +107,7 @@
             </div>
           </div>
         </aside>
-        <section class="message-area w-100 flex flex-columns">
+        <section class="message-area w-100 flex flex-columns" ref="messageArea">
           <header class="active-contact w-100 p-1">
             <div class="active-details w-100 h-100 flex al-items-c">
               <div class="active-avatar h-100 mr-2">
@@ -128,41 +126,72 @@
               <div class="active-actions fsz-3-2 primary-color">
                 <i
                   class="fas fa-search mr-2"
-                  @click="toggleFilteringMessages(); resetSearchForMessage(); resetFilteringMessages()"
+                  @click="openSearchingMessages"
                 ></i>
-                <i class="fa-solid fa-camera mr-2" @click="sendAPicture"></i>
+                <i
+                  class="fa-solid fa-camera mr-2"
+                  @click="openSendingImage"
+                ></i>
                 <i class="fas fa-ellipsis-v mr-2" @click="toggleChatInfos"></i>
               </div>
             </div>
           </header>
+          <div
+              class="filter-messages-bar pill no-border tertiary-bg mb-1"
+              :style="{width: barWidth}"
+              v-if="showSearchBar"
+            >
+              <div
+                class="messages-filter-wrapper flex p-1 al-items-c"
+                v-if="filteringMessages"
+              >
+                <input
+                  type="text"
+                  name="filter-message-input"
+                  id="filter-message-input"
+                  aria-label="Filtra i messaggi per testo"
+                  class="pill h-100 mr-1 p-1 no-border"
+                  placeholder="Filtra i messaggi per testo"
+                  v-model.trim="searchForMessage"
+                  @keyup="searchMessage()"
+                />
+                <button
+                  type="button"
+                  class="pill btn no-border h-100"
+                  @click="closeSearchBar(); resetFilteredMessages()"
+                >
+                  <i class="fa-solid fa-xmark mr-1"></i>
+                  <span>Chiudi ricerca</span>
+                </button>
+              </div>
+              <div
+                class="image-url-selector-wrapper flex p-1 al-items-c"
+                v-if="sendingImage"
+              >
+                <input
+                  type="text"
+                  name="image-url-input"
+                  id="image-url-input"
+                  aria-label="Inserisci l'URL dell'immagine"
+                  class="pill h-100 mr-1 p-1 no-border"
+                  placeholder="Inserisci l'URL dell'immagine"
+                  v-model.trim="imageUrl"
+                  @keyup.enter="sendAPicture"
+                />
+                <button
+                  type="button"
+                  class="pill btn no-border h-100"
+                  @click="sendAPicture"
+                >
+                  <i class="fa-solid fa-paper-plane mr-1"></i>
+                  <span>Invia immagine</span>
+                </button>
+              </div>
+            </div>
           <section
-            class="body-message py-5 px-6 grow-1 w-100 flex flex-columns"
+            class="body-message p-5 grow-1 w-100 flex flex-columns"
             ref="bodyMessage"
           >
-            <div
-              class="filter-messages-bar pill no-border tertiary-bg mb-1 flex p-1"
-              v-if="filteringMessages"
-            >
-              <input
-                type="text"
-                name="filter-message-input"
-                id="filter-message-input"
-                aria-label="Filtra i messaggi per testo"
-                class="pill h-100 mr-1 p-05"
-                placeholder="Filtra i messaggi per testo"
-                v-model.trim="searchForMessage"
-                @keyup="searchMessage()"
-              />
-              <button
-                type="button"
-                class="pill btn no-border h-100 p-0"
-                @click="resetFilteringMessages(); toggleFilteringMessages()"
-              >
-                <i class="fa-solid fa-xmark mr-1"></i>
-                <span>Vedi tutti i messaggi</span>
-              </button>
-            </div>
-
             <div
               v-for="(message, i) in contacts[activeAccount].messages"
               class="message"
@@ -222,7 +251,7 @@
               />
             </div>
           </section>
-          <div class="chat-options" ref="chatOptions" style="height: 0px">
+          <div class="chat-options" ref="chatOptions" style="height: 0">
             <div class="top">
               <h4>Chat con: {{contacts[activeAccount].name}}</h4>
               <div class="close">

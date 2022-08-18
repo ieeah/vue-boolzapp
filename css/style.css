@@ -71,6 +71,9 @@ i:hover {
         .p-1 {padding: .5rem;}
         .p-2 {padding: 1rem;}
         .p-3 {padding: 1.5rem;}
+        .p-4 {padding: 2rem;}
+        .p-5 {padding: 4rem;}
+        .p-6 {padding: 5rem;}
         .px-6 {padding-inline: 5rem;}
         .py-5 {padding-block: 4rem;}
         /* margin */
@@ -240,20 +243,30 @@ input:focus {
 
 /* MESSAGE AREA */
 
-.filter-messages.bar {
-    padding: 12px 18px;
+.filter-messages-bar {
     display: flex;
-    justify-content: end;
+    position: absolute;
+    top: 6rem;
+    left: 4rem;
+    z-index: 1;
+    width: calc(100% - 8rem);
 }
+
 .filter-messages-bar input {
     flex-grow: 1;
     height: 100%;
     opacity: .8;
     font-weight: bold;
 }
-/* .filter-messages-bar button {
-    flex-grow: 1;
-} */
+
+.filter-messages-bar > * {
+    width: 100%;
+}
+
+.message-area {
+    position: relative;
+}
+
 .message-area .body-message {
     background-image: url("../img/mine.jpg");
     background-position: center;
@@ -379,7 +392,7 @@ input.message-input {
 
 .replyMessage i.fas {
     width: 15px;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1;
     margin-left: calc(100% - 15px);
     margin-bottom: 10px;
     color: var(--secondary-color);

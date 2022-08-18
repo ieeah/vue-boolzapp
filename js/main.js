@@ -112,6 +112,9 @@ const app = new Vue({
     searchFor: "",
     searchForMessage: "",
     filteringMessages: false,
+    sendingImage: false,
+    showSearchBar: false,
+    imageUrl: "",
     Message: "",
     repliedMessage: "",
     replyingBody: "",
@@ -184,24 +187,28 @@ const app = new Vue({
     //////////////////
 
     botAnswer() {
-      setTimeout(() => {
-        this.contacts[this.activeAccount].messages.push({
-          date: dayjs().format("DD/MM/YYYY HH:mm:ss"),
-          date_short: dayjs().format("DD/MM/YYYY"),
-          text: this.autoAnswers[
-            Math.floor(Math.random() * this.autoAnswers.length)
-          ],
-          status: "received",
-        });
-        this.autoScroll();
-      }, 1000);
+      let answer = new Promise(resolve => {
+        setTimeout(() => {
+          this.contacts[this.activeAccount].messages.push({
+            date: dayjs().format("DD/MM/YYYY HH:mm:ss"),
+            date_short: dayjs().format("DD/MM/YYYY"),
+            text: this.autoAnswers[
+              Math.floor(Math.random() * this.autoAnswers.length)
+            ],
+            status: "received",
+            visible: true,
+          });
+          resolve();
+        }, 3000);
+      });
+      return answer;
     },
 
     ///////////////
 
     autoScroll() {
       setTimeout(() => {
-        this.$refs.bodyMessage.scrollTop = this.$refs.bodyMessage.scrollHeight;
+      this.$refs.bodyMessage.scrollTop = this.$refs.bodyMessage.scrollHeight;
       }, 1);
     },
 
@@ -218,13 +225,11 @@ const app = new Vue({
     ///////////////////
 
     modifyMessage(i) {
-      const newText = prompt("inserisci il testo del nuovo messaggio");
       this.contacts[this.activeAccount].messages[this.activeMessage].text =
-        newText;
+        prompt("inserisci il testo del nuovo messaggio");
       this.contacts[this.activeAccount].messages[
         this.activeMessage
       ].date = `modificato il ${dayjs().format("DD/MM/YYYY HH:mm:ss")}`;
-
       this.activeMessage = null;
     },
 
@@ -240,11 +245,8 @@ const app = new Vue({
           this.activeMessage,
           1
         );
-
-        this.activeMessage = null;
-      } else {
-        this.activeMessage = null;
       }
+      this.activeMessage = null;
     },
 
     ////////////////
@@ -265,20 +267,20 @@ const app = new Vue({
     //////////////////
 
     toggleChatInfos() {
-      if (this.$refs.chatOptions.style.height != "0px") {
-        this.$refs.chatOptions.style.height = "0px";
-      } else this.$refs.chatOptions.style.height = "30%";
+      let height =
+        this.$refs.chatOptions.style.height === "0px" ? "30%" : "0px";
+      this.$refs.chatOptions.style.height = height;
     },
 
     //////////////
 
     sendAPicture() {
-      let url = prompt("Inserisci l url della foto da inviare");
-      if (!url) {
-        return alert("il link inserito non è valido");
+      if (!this.imageUrl) {
+        return alert("Non è stato inserito alcun link");
       }
-      if (!url.includes("https://") || !url.includes("http://")) {
-        return alert("il link inserito non è valido");
+
+      if (this.imageUrl.indexOf("http") < 0) {
+        return alert("Il link inserito non è valido");
       }
 
       this.contacts[this.activeAccount].messages.push({
@@ -286,29 +288,54 @@ const app = new Vue({
         date_short: dayjs().format("DD/MM/YYYY"),
         text: this.newMessageBody,
         status: "sent",
-        pic: url,
+        pic: this.imageUrl,
       });
-      this.autoScroll();
-      this.botAnswer();
+
+      this.resetVisibleMessages();
+      this.closeSearchBar();
+      this.botAnswer().then(() => this.autoScroll());
+    },
+
+    resetImageUrl() {
+      this.imageUrl = "";
+    },
+
+    openSearchingMessages() {
+      if (this.showSearchBar && this.filteringMessages) {
+        this.showSearchBar = false;
+      } else if (!this.showSearchBar) {
+        this.showSearchBar = true;
+        this.sendingImage = false;
+        this.filteringMessages = true;
+      } else if (this.showSearchBar && !this.filteringMessages) {
+        this.filteringMessages = true;
+        this.sendingImage = false;
+      }
+    },
+
+    openSendingImage() {
+      this.resetVisibleMessages();
+      if (this.showSearchBar && this.sendingImage) {
+        this.showSearchBar = false;
+      } else if (!this.showSearchBar) {
+        this.showSearchBar = true;
+        this.sendingImage = true;
+        this.filteringMessages = false;
+      } else if (this.showSearchBar && !this.sendingImage) {
+        this.sendingImage = true;
+        this.filteringMessages = false;
+      }
+    },
+
+    closeSearchBar() {
+      this.showSearchBar = false;
+      this.searchForMessage = "";
+      this.imageUrl = "";
+      this.resetFilteredMessages();
+      this.resetVisibleMessages();
     },
 
     //////////////
-
-    toggleFilteringMessages() {
-      this.filteringMessages = !this.filteringMessages;
-    },
-
-    closeFilteringMessages() {
-      this.filteringMessages = false;
-    },
-
-    //////////////
-
-		resetSearchForMessage() {
-			this.searchForMessage = "";
-		},
-
-		//////////////
 
     searchMessage() {
       for (message of this.contacts[this.activeAccount].messages) {
@@ -326,9 +353,7 @@ const app = new Vue({
       });
     },
 
-    //////////////
-
-    resetFilteringMessages() {
+    resetFilteredMessages() {
       this.searchForMessage = "";
       this.resetVisibleMessages();
     },
@@ -336,6 +361,10 @@ const app = new Vue({
   computed: {
     replying() {
       return this.repliedMessage ? false : true;
+    },
+
+    barWidth() {
+      return this.$refs.messageArea.style.width;
     },
 
     lastMessage() {
