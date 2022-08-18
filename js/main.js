@@ -290,7 +290,7 @@ const app = new Vue({
         status: "sent",
         pic: this.imageUrl,
       });
-
+      this.newMessageBody = "";
       this.resetVisibleMessages();
       this.closeSearchBar();
       this.botAnswer().then(() => this.autoScroll());
